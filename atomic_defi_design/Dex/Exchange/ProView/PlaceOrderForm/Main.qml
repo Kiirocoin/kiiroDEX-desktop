@@ -23,7 +23,7 @@ Widget
     readonly property bool trade_preimage_ready: fees.hasOwnProperty('base_transaction_fees_ticker')
     readonly property bool can_submit_trade: last_trading_error === TradingError.None
 
-    margins: 15
+    margins: 10
     collapsable: false
 
     Connections {

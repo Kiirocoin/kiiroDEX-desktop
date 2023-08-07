@@ -67,7 +67,7 @@ Widget
         Layout.fillHeight: true
         color: Dex.CurrentTheme.floatingBackgroundColor
         radius: 10
-        Layout.preferredWidth: 495
+        Layout.preferredWidth: 485
 
         Qaterial.SwipeView
         {

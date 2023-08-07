@@ -159,7 +159,7 @@ Item
     {
         anchors.fill: parent
         spacing: 15
-        anchors.leftMargin: 20
+        anchors.leftMargin: 10
         anchors.rightMargin: 20
 
         TradeViewHeader
