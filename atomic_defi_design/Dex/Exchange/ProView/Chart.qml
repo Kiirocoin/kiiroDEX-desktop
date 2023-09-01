@@ -11,6 +11,7 @@ import AtomicDEX.MarketMode 1.0
 Item
 {
     id: root
+    Layout.fillWidth: true
 
     readonly property string theme: Dex.CurrentTheme.getColorMode() === Dex.CurrentTheme.ColorMode.Dark ? "dark" : "light"
     property string loaded_symbol
@@ -20,7 +21,7 @@ Item
 
     function loadChart(right_ticker, left_ticker, force = false, source="livecoinwatch")
     {
-
+        console.log("Loading chart for", left_ticker, right_ticker, force, source)
         // <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script> <div class="livecoinwatch-widget-1" lcw-coin="BTC" lcw-base="USD" lcw-secondary="BTC" lcw-period="w" lcw-color-tx="#ffffff" lcw-color-pr="#58c7c5" lcw-color-bg="#1f2434" lcw-border-w="1" lcw-digits="8" ></div>
 
         let chart_html = ""
@@ -37,12 +38,14 @@ Item
             {
                 pair_supported = false
                 selected_testcoin = left_ticker
+                console.log("No chart for testcoin: ", left_ticker)
                 return
             }
             if (General.is_testcoin(right_ticker))
             {
                 pair_supported = false
                 selected_testcoin = right_ticker
+                console.log("No chart for testcoin: ", right_ticker)
                 return
             }
 
@@ -55,6 +58,7 @@ Item
                 if (symbol === loaded_symbol && !force)
                 {
                     webEngineViewPlaceHolder.visible = true
+                    console.log("Chart already loaded")
                     return
                 }
                 chart_html = `
@@ -69,11 +73,15 @@ Item
                 <div class="livecoinwatch-widget-1" lcw-coin="${rel_ticker}" lcw-base="${base_ticker}" lcw-secondary="USDC" lcw-period="w" lcw-color-tx="${Dex.CurrentTheme.foregroundColor}" lcw-color-pr="#58c7c5" lcw-color-bg="${Dex.CurrentTheme.comboBoxBackgroundColor}" lcw-border-w="0" lcw-digits="8" ></div>
                 `
             }
+            else {
+                console.log("no chart for empty ticker(s)", left_ticker, right_ticker)
+            }
         }
-        // console.log(chart_html)
+        console.log(chart_html)
 
         if (chart_html == "")
         {
+            console.log("Loading chart for reverse pair")
             const pair = atomic_qt_utilities.retrieve_main_ticker(left_ticker) + "/" + atomic_qt_utilities.retrieve_main_ticker(right_ticker)
             const pair_reversed = atomic_qt_utilities.retrieve_main_ticker(right_ticker) + "/" + atomic_qt_utilities.retrieve_main_ticker(left_ticker)
 
@@ -92,6 +100,7 @@ Item
             if (symbol === loaded_symbol && !force)
             {
                 webEngineViewPlaceHolder.visible = true
+                console.log("Chart already loaded (2)?")
                 return
             }
 
@@ -137,15 +146,16 @@ Item
         catch (e) { console.error(e) }
     }
 
-    onWidthChanged: {
-        try
-        {
-            loadChart(left_ticker?? atomic_app_primary_coin,
-                      right_ticker?? atomic_app_secondary_coin)
-        }
-        catch (e) { console.error(e) }
-    }
+//    onWidthChanged: {
+//        try
+//        {
+//            loadChart(left_ticker?? atomic_app_primary_coin,
+//                      right_ticker?? atomic_app_secondary_coin)
+//        }
+//        catch (e) { console.error(e) }
+//    }
 
+    // Chart Loading spinners
     RowLayout
     {
         anchors.fill: parent
@@ -163,7 +173,7 @@ Item
         DefaultText
         {
             visible: pair_supported
-            text_value: qsTr("Loading market data") + "..."
+            text_value: qsTr("Loading chart data") + "..."
         }
 
         DefaultText
@@ -183,37 +193,45 @@ Item
         }
     }
 
-    Item
-    {
-        id: webEngineViewPlaceHolder
+    ColumnLayout{
         anchors.fill: parent
-        visible: false
-
-        Component.onCompleted:
+        spacing: 2
+        // Chart Area
+        DexRectangle
         {
-            dashboard.webEngineView.parent = webEngineViewPlaceHolder
-            dashboard.webEngineView.anchors.fill = webEngineViewPlaceHolder
-        }
-        Component.onDestruction:
-        {
-            dashboard.webEngineView.visible = false
-            dashboard.webEngineView.stop()
-        }
-        onVisibleChanged: dashboard.webEngineView.visible = visible
-
-        Connections
-        {
-            target: dashboard.webEngineView
-
-            function onLoadingChanged(webEngineLoadReq)
+            id: webEngineViewPlaceHolder
+            width: parent.width
+            height: parent.height
+            color: 'transparent'
+            visible: true
+            
+            Component.onCompleted:
             {
-                if (webEngineLoadReq.status === WebEngineView.LoadSucceededStatus)
+                dashboard.webEngineView.parent = webEngineViewPlaceHolder
+                dashboard.webEngineView.anchors.fill = webEngineViewPlaceHolder
+            }
+            Component.onDestruction:
+            {
+                dashboard.webEngineView.visible = false
+                dashboard.webEngineView.stop()
+            }
+            onVisibleChanged: dashboard.webEngineView.visible = visible
+
+            Connections
+            {
+                target: dashboard.webEngineView
+
+                function onLoadingChanged(webEngineLoadReq)
                 {
-                    webEngineViewPlaceHolder.visible = true
+                    if (webEngineLoadReq.status === WebEngineView.LoadSucceededStatus)
+                    {
+                        webEngineViewPlaceHolder.visible = true
+                    }
+                    else webEngineViewPlaceHolder.visible = false
                 }
-                else webEngineViewPlaceHolder.visible = false
             }
         }
+        
     }
 
     Connections
