@@ -12,6 +12,9 @@ import "../Components"
 import "../Constants"
 import App 1.0
 
+// This component is no longer in use, but it's kept here for reference
+// The active chart component is Chart.qml
+
 // Portfolio
 Item {
     Layout.fillWidth: true
