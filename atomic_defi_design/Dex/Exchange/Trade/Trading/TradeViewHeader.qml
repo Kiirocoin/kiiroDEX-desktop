@@ -22,7 +22,6 @@ Item
     property var proViewTickerSelectors
     property var proViewTrInfo
     property var proViewOrderBook
-    property var proViewBestOrders
     property var proViewPlaceOrderForm
 
     Item
@@ -131,10 +130,6 @@ Item
                     HorizontalLine { width: parent.width - 20; anchors.horizontalCenter: parent.horizontalCenter; opacity: .4 }
 
                     CheckEye { text: qsTr("Order Book"); target: proViewOrderBook }
-
-                    HorizontalLine { width: parent.width - 20; anchors.horizontalCenter: parent.horizontalCenter; opacity: .4 }
-
-                    CheckEye { text: qsTr("Best Orders"); target: proViewBestOrders }
 
                     HorizontalLine { width: parent.width - 20; anchors.horizontalCenter: parent.horizontalCenter; opacity: .4 }
 
