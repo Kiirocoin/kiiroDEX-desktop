@@ -158,20 +158,18 @@ Item
     Column
     {
         anchors.fill: parent
-        spacing: 15
-        anchors.leftMargin: 20
-        anchors.rightMargin: 20
+        spacing: 8
+        anchors.leftMargin: 8
+        anchors.rightMargin: 8
 
         TradeViewHeader
         {
             id: header
             width: parent.width
             height: parent.height * 0.06
-
             proViewTickerSelectors: proView.tickerSelectors
             proViewTrInfo: proView.trInfo
             proViewOrderBook: proView.orderBook
-            proViewBestOrders: proView.bestOrders
             proViewPlaceOrderForm: proView.placeOrderForm
         }
 
