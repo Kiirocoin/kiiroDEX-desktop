@@ -15,57 +15,20 @@ MouseArea
     height: lineHeight * 5
     hoverEnabled: true
 
-    Connections
-    {
-        target: parent.parent
-
-        function onIsExpandedChanged()
-        {
-            if (isExpanded) waitForSidebarExpansionAnimation.start();
-            else
-            {
-                _portfolioLine.label.opacity = 0;
-                _walletLine.label.opacity = 0;
-                _dexLine.label.opacity = 0;
-                _addressBookLine.label.opacity = 0;
-                _fiatLine.label.opacity = 0;
-            }
-        }
-    }
-
-    NumberAnimation
-    {
-        id: waitForSidebarExpansionAnimation
-        targets: [_portfolioLine.label, _walletLine.label, _dexLine.label, _addressBookLine.label, _fiatLine.label]
-        properties: "opacity"
-        duration: 200
-        from: 0
-        to: 0
-        onFinished: labelsOpacityAnimation.start()
-    }
-
-    NumberAnimation
-    {
-        id: labelsOpacityAnimation
-        targets: [_portfolioLine.label, _walletLine.label, _dexLine.label, _addressBookLine.label, _fiatLine.label]
-        properties: "opacity"
-        duration: 350
-        from: 0.0
-        to: 1
-    }
-
     // Selection List
     ColumnLayout
     {
         id: _columnLayout
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        spacing: 0
         FigurativeLine
         {
             id: _portfolioLine
 
             Layout.fillWidth: true
             type: Main.LineType.Portfolio
-            label.text: isExpanded ? qsTr("Portfolio") : ""
+            label.text: qsTr("Portfolio")
             icon.source: General.image_path + "menu-assets-portfolio.svg"
             onClicked: lineSelected(type)
         }
@@ -76,7 +39,7 @@ MouseArea
 
             Layout.fillWidth: true
             type: Main.LineType.Wallet
-            label.text: isExpanded ? qsTr("Wallet") : ""
+            label.text: qsTr("Wallet")
             icon.source: General.image_path + "menu-assets-white.svg"
             onClicked: lineSelected(type)
         }
@@ -87,7 +50,7 @@ MouseArea
 
             Layout.fillWidth: true
             type: Main.LineType.DEX
-            label.text: isExpanded ? qsTr("DEX") : ""
+            label.text: qsTr("DEX")
             icon.source: General.image_path + "menu-exchange-white.svg"
             onClicked: lineSelected(type)
         }
@@ -98,7 +61,7 @@ MouseArea
 
             Layout.fillWidth: true
             type: Main.LineType.Addressbook
-            label.text: isExpanded ? qsTr("Address Book") : ""
+            label.text: qsTr("Address Book")
             icon.source: General.image_path + "menu-news-white.svg"
             onClicked: lineSelected(type)
         }
@@ -110,7 +73,7 @@ MouseArea
             label.enabled: false
             icon.enabled: false
             Layout.fillWidth: true
-            label.text: isExpanded ? qsTr("Fiat") : ""
+            label.text: qsTr("Fiat")
             icon.source: General.image_path + "bill.svg"
         }
     }

@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Layouts 1.15
 
 import "../Components"
 import "../Constants"
@@ -17,7 +18,6 @@ Item
         Support
     }
 
-    property bool   isExpanded: true
     property real   lineHeight: 44
     property var    currentLineType: Main.LineType.Portfolio
     property alias  _selectionCursor: _selectionCursor
@@ -28,10 +28,8 @@ Item
     signal supportClicked()
     signal addCryptoClicked()
     signal privacySwitched(var checked)
-    signal expanded(var isExpanded)
-    signal expandStarted(var isExpanding)
 
-    width: isExpanded ? 200 : 80
+    width: 160
     height: parent.height
 
     // Background Rectangle
@@ -47,11 +45,6 @@ Item
         color: Dex.CurrentTheme.sidebarBgColor
     }
 
-    // Animation when changing width.
-    Behavior on width
-    {
-        NumberAnimation { duration: 300; targets: [width, _selectionCursor.width]; properties: "width"; onRunningChanged: { if (!running) expanded(isExpanded); else expandStarted(isExpanded); } }
-    }
 
     // Selection Cursor
     AnimatedRectangle
@@ -65,9 +58,9 @@ Item
         }
 
         anchors.left: parent.left
-        anchors.leftMargin: 12
-        radius: 18
-        width: parent.width - 14
+        anchors.leftMargin: 8
+        radius: 16
+        width: parent.width - 8
         height: lineHeight
 
         opacity: .7
@@ -90,41 +83,44 @@ Item
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        Top
-        {
-            id: top
-            width: parent.width
-            height: 180
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: parent.top
-            anchors.topMargin: 16
-        }
 
-        Center
+        ColumnLayout
         {
-            id: center
-            width: parent.width
-            anchors.top: top.bottom
-            anchors.topMargin: 69.5
-            onLineSelected:
+            spacing: 0
+            anchors.fill: parent
+            Top
             {
-                if (currentLineType === lineType)
-                    return;
-                currentLineType = lineType;
-                root.lineSelected(lineType);
+                id: top
+                width: parent.width
+                Layout.alignment: Qt.AlignHCenter
             }
-        }
 
-        Bottom
-        {
-            id: bottom
-            width: parent.width
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 62
+            Item // Spacer
+            {
+                Layout.fillHeight: true
+            }
 
-            onAddCryptoClicked: root.addCryptoClicked()
-            onSettingsClicked: root.settingsClicked()
-            onSupportClicked: root.supportClicked()
+            Center
+            {
+                id: center
+                width: parent.width
+                onLineSelected:
+                {
+                    if (currentLineType === lineType)
+                        return;
+                    currentLineType = lineType;
+                    root.lineSelected(lineType);
+                }
+            }
+
+            Bottom
+            {
+                id: bottom
+                width: parent.width
+                onAddCryptoClicked: root.addCryptoClicked()
+                onSettingsClicked: root.settingsClicked()
+                onSupportClicked: root.supportClicked()
+            }
         }
     }
 }

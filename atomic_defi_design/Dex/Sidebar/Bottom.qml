@@ -15,57 +15,22 @@ MouseArea
     signal supportClicked()
     signal settingsClicked()
 
-    height: lineHeight * 3
+    height: lineHeight * 4
     hoverEnabled: true
     propagateComposedEvents: true
 
-    Connections
-    {
-        target: parent.parent
-
-        function onIsExpandedChanged()
-        {
-            if (isExpanded) waitForSidebarExpansionAnimation.start();
-            else
-            {
-                addCryptoLine.label.opacity = 0;
-                settingsLine.label.opacity = 0;
-                supportLine.label.opacity = 0;
-                privacyLine.label.opacity = 0;
-            }
-        }
-    }
-
-    NumberAnimation
-    {
-        id: waitForSidebarExpansionAnimation
-        targets: [addCryptoLine.label, settingsLine.label, supportLine.label, privacyLine.label]
-        properties: "opacity"
-        duration: 200
-        from: 0
-        to: 0
-        onFinished: labelsOpacityAnimation.start()
-    }
-
-    NumberAnimation
-    {
-        id: labelsOpacityAnimation
-        targets: [addCryptoLine.label, settingsLine.label, supportLine.label, privacyLine.label]
-        properties: "opacity"
-        duration: 350
-        from: 0.0
-        to: 1
-    }
 
     ColumnLayout
     {
         anchors.fill: parent
+        height: parent.height
+        spacing: 0
         FigurativeLine
         {
             id: addCryptoLine
 
             Layout.fillWidth: true
-            label.text: isExpanded ? qsTr("Add Crypto") : ""
+            label.text: qsTr("Add Crypto")
             icon.source: General.image_path + "bank-plus.svg"
             onClicked: addCryptoClicked()
         }
@@ -74,7 +39,7 @@ MouseArea
             id: settingsLine
 
             Layout.fillWidth: true
-            label.text: isExpanded ? qsTr("Settings") : ""
+            label.text: qsTr("Settings")
             icon.source: General.image_path + "menu-settings-white.svg"
             onClicked: settingsClicked()
         }
@@ -83,7 +48,7 @@ MouseArea
             id: supportLine
 
             Layout.fillWidth: true
-            label.text: isExpanded ? qsTr("Support") : ""
+            label.text: qsTr("Support")
             icon.source: General.image_path + "menu-support-white.png"
             onClicked: supportClicked(type)
         }
@@ -94,7 +59,6 @@ MouseArea
 
             Layout.fillWidth: true
             label.text: qsTr("Privacy")
-            label.visible: isExpanded
 
             onClicked:
             {
@@ -160,7 +124,7 @@ MouseArea
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
-                scale: 0.75
+                scale: 0.5
                 mouseArea.hoverEnabled: true
                 onClicked: parent.clicked()
             }
