@@ -23,9 +23,6 @@ import "Trading/Items/"
 // OrderBook / Component import
 import "OrderBook/" as OrderBook
 
-// Best Order
-import "BestOrder/" as BestOrder
-
 // Orders (orders, history)
 import "Orders/" as OrdersView
 
@@ -43,7 +40,6 @@ RowLayout
     property alias tickerSelectors: selectors
     property alias trInfo: tradingInfo
     property alias orderBook: orderBook
-    property alias bestOrders: bestOrders
     property alias placeOrderForm: placeOrderForm
 
     function selectOrder(
@@ -109,71 +105,53 @@ RowLayout
         }
     }
 
-    ColumnLayout
-    {
+    // Chart and combos & orderbook column with ticker selectors.
+    DexRectangle {
         Layout.alignment: Qt.AlignTop
-
-        Layout.minimumWidth: selectors.visible || tradingInfo.visible ? 495 : -1
-        Layout.maximumWidth: (!orderBook.visible && !bestOrders.visible) || (!placeOrderForm.visible) ? -1 : 495
-        Layout.fillWidth: true
-
+        radius: 10
+        Layout.minimumWidth: selectors.visible || tradingInfo.visible ? 450 : -1
+        Layout.maximumWidth: (!orderBook.visible) || (!placeOrderForm.visible) ? -1 : 450
         Layout.fillHeight: true
+        color: 'transparent'
 
-        spacing: 10
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 0
 
-        // Ticker selectors.
-        TickerSelectors
-        {
-            id: selectors
+            // Ticker selectors.
+            TickerSelectors
+            {
+                id: selectors
+                Layout.fillWidth: true
+                Layout.preferredHeight: 70
+            }
 
-            Layout.fillWidth: true
-            Layout.preferredHeight: 70
-        }
-
-        // Trading Informations
-        TradingInfo.Main
-        {
-            id: tradingInfo
-
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            resizable: false
+            // Trading Informations
+            TradingInfo.Main
+            {
+                id: tradingInfo
+                Layout.minimumWidth: 450
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
         }
     }
 
     WidgetContainer
     {
-        property real _orderBookHeightRatio: 0.65
-        property real _bestOrdersHeightRatio: 0.35
-
-        Layout.minimumWidth: orderBook.visible || bestOrders.visible ? 353 : -1
+        Layout.minimumWidth: orderBook.visible ? 340 : -1
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.alignment: Qt.AlignTop
-        spacing: 4
-
+        
         onHeightChanged:
         {
-            orderBook.height = getHeight(_orderBookHeightRatio);
-            bestOrders.height = getHeight(_bestOrdersHeightRatio);
+            orderBook.height = getHeight(1);
         }
-
         OrderBook.Vertical
         {
             id: orderBook
-
             width: parent.width
-            minHeight: 320
-        }
-
-        // Best Orders
-        BestOrder.List
-        {
-            id: bestOrders
-
-            width: parent.width
-            minHeight: 140
+            minHeight: 420
         }
     }
 
@@ -181,12 +159,11 @@ RowLayout
     PlaceOrderForm.Main
     {
         id: placeOrderForm
-
-        Layout.minimumWidth: visible ? 302 : -1
+        Layout.minimumWidth: placeOrderForm.visible ? 300 : -1
         Layout.maximumWidth: 350
+
         Layout.fillWidth: true
         Layout.fillHeight: true
-
         resizable: false
     }
 

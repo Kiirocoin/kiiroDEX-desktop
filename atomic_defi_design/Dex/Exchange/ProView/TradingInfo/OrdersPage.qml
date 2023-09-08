@@ -79,7 +79,9 @@ Item {
         applyFilter()
         list_model_proxy.apply_all_filtering()
     }
-
+    DexLabel {
+        text: "asedgdstjkfjkghjfh"
+    }
     ColumnLayout
     {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -88,9 +90,16 @@ Item {
         anchors.bottomMargin: is_history ? 0 : 10
         spacing: 15
 
+        DexLabel {
+            text: "35246768"
+        }
         RowLayout
         {
             spacing: 10
+
+            DexLabel {
+                text: "FSDGHGJGHDG"
+            }
             DefaultButton
             {
                 Layout.preferredHeight: 29

@@ -9,14 +9,15 @@ import "../../../Constants"
 import "../../../Components"
 import "../../Trade"
 import "../../ProView"
+// Best Order
+import "../../Trade/BestOrder/" as BestOrder
 
 Widget
 {
-    width: 495
+    width: 450
     property alias currentIndex: tabView.currentIndex
-
-    title: qsTr("Trading Information")
-
+    collapsable: false
+    header: null
     background: null
     margins: 0
 
@@ -32,9 +33,8 @@ Widget
         property int pair_chart_idx: 0
         property int order_idx: 1
         property int history_idx: 2
-
         background: null
-        Layout.leftMargin: 6
+        Layout.margins: 0
 
         Qaterial.LatoTabButton
         {
@@ -65,9 +65,9 @@ Widget
     Rectangle
     {
         Layout.fillHeight: true
-        color: Dex.CurrentTheme.floatingBackgroundColor
+        width: parent.width
+        color: 'red' // Dex.CurrentTheme.floatingBackgroundColor
         radius: 10
-        Layout.preferredWidth: 495
 
         Qaterial.SwipeView
         {
@@ -75,32 +75,33 @@ Widget
             clip: true
             interactive: false
             currentIndex: tabView.currentIndex
-            anchors.fill: parent
+            width: 450
+            Layout.fillHeight: true
 
             ColumnLayout
             {
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                spacing: 10
+                spacing: 0
+                height: parent.height
                 // Chart
                 Chart
                 {
                     id: chart
-                    Layout.topMargin: 20
-                    Layout.leftMargin: 10
-                    Layout.rightMargin: 10
-                    Layout.fillHeight: true
-                    Layout.minimumWidth: 470
-                    Layout.minimumHeight: 200
+                    width: 450
+                    height: 245
                 }
-
-                PriceLineSimplified
+                // Price comparison to CEX
+//                PriceLineSimplified
+//                {
+//                    id: price_line
+//                    width: 450
+//                    height: 120
+//                }
+                // Best Orders
+                BestOrder.List
                 {
-                    id: price_line
-                    Layout.bottomMargin: 20
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-                    Layout.fillWidth: true
+                    id: bestOrders
+                    width: 440
+                    Layout.minimumHeight: 300
                     Layout.fillHeight: true
                 }
             }
@@ -110,10 +111,17 @@ Widget
                 swipeView.currentItem.update();
             }
 
-            OrdersPage { clip: true }
+            OrdersPage
+            {
+                clip: true
+                width: 440
+                height: 400
+            }
 
             OrdersPage
             {
+                height: parent.height
+                width: parent.width
                 is_history: true
                 clip: true
             }

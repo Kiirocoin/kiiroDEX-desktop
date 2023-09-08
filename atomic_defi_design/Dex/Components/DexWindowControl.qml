@@ -28,7 +28,7 @@ Item
         {
             onPressed: window.startSystemMove();
             anchors.fill: parent
-            anchors.rightMargin: window.isOsx ? 280 : 0
+            anchors.rightMargin: window.isOsx ? 200 : 0
             onDoubleClicked:
             {
                 if (window.visibility === ApplicationWindow.Maximized) window.showNormal()
@@ -42,7 +42,7 @@ Item
     {
         id: _left_resize
         height: parent.height
-        width: 3
+        width: 5
         MouseArea
         {
             onPressed: window.startSystemResize(Qt.LeftEdge)
@@ -55,7 +55,7 @@ Item
         id: _right_resize
         height: parent.height
         anchors.right: parent.right
-        width: 3
+        width: 5
         MouseArea
         {
             cursorShape: "SizeHorCursor"
@@ -65,7 +65,7 @@ Item
     Item
     {
         id: _bottom_resize
-        height: 3
+        height: 5
         width: parent.width
         anchors.bottom: parent.bottom
         MouseArea
@@ -90,8 +90,8 @@ Item
     Item
     {
         id: _bottom_right_resize
-        height: 6
-        width: 6
+        height: 10
+        width: 10
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         MouseArea

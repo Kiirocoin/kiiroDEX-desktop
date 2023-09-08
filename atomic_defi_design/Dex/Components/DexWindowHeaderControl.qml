@@ -13,7 +13,7 @@ RowLayout
 {
     property var   orders: API.app.orders_mdl.orders_proxy_mdl.ModelHelper
 
-    width: 120
+    width: 160
     anchors.right: parent.right
     height: 30
     spacing: 0

@@ -22,7 +22,7 @@ Row
     {
         id: selectorLeft
 
-        width: 230
+        width: 210
         height: parent.height
 
         left_side: true
@@ -63,7 +63,7 @@ Row
     {
         id: selectorRight
 
-        width: 230
+        width: 210
         height: parent.height
 
         left_side: false
