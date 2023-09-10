@@ -15,6 +15,8 @@ import Dex.Themes 1.0 as Dex
 MultipageModal
 {
     id: root
+    horizontalPadding: 35
+    verticalPadding: 35
 
     property var coin_cfg_model: API.app.portfolio_pg.global_cfg_mdl
 
@@ -28,8 +30,8 @@ MultipageModal
         coin_cfg_model.all_disabled_proxy.setFilterFixedString(text === undefined ? input_coin_filter.textField.text : text)
     }
 
-    width: 676
-    height: 720
+    width: 600
+    height: 700
 
     onOpened: 
     {
@@ -49,8 +51,8 @@ MultipageModal
     {
         titleText: qsTr("Enable assets")
         titleAlignment: Qt.AlignHCenter
-        titleTopMargin: 15
-        topMarginAfterTitle: 15
+        titleTopMargin: 5
+        topMarginAfterTitle: 5
 
         // Search input
         SearchField
@@ -59,10 +61,10 @@ MultipageModal
 
             searchIconLeftMargin: 20
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 10
+            Layout.topMargin: 15
             Layout.fillWidth: true
-            Layout.preferredHeight: 44
-            textField.placeholderText: qsTr("Search asset")
+            Layout.preferredHeight: 40
+            textField.placeholderText: qsTr("Search assets")
             textField.forceFocus: true
             textField.onTextChanged: filterCoins()
         }

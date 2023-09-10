@@ -17,6 +17,11 @@ DefaultModal
     readonly property int  _modalWidth: width
     readonly property int  _modalPadding: padding
 
+    width: 676
+    height: columnLayout.height + verticalPadding * 2
+
+    onOpened: stackLayout.opacity = 1
+
     function nextPage()
     {
         if (currentIndex === count - 1)
@@ -38,11 +43,6 @@ DefaultModal
             changePageAnim.start()
         }
     }
-
-    width: 676
-    height: columnLayout.height + verticalPadding * 2
-
-    onOpened: stackLayout.opacity = 1
 
     SequentialAnimation
     {
