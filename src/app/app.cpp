@@ -491,7 +491,6 @@ namespace atomic_dex
 
         // get_dispatcher().sink<refresh_update_status>().connect<&application::on_refresh_update_status_event>(*this);
         //! MM2 system need to be created before the GUI and give the instance to the gui
-        system_manager_.create_system<ip_service_checker>();
         system_manager_.create_system<mm2_service>(system_manager_);
         auto& settings_page_system = system_manager_.create_system<settings_page>(system_manager_, m_app, this);
         auto& portfolio_system     = system_manager_.create_system<portfolio_page>(system_manager_, this);
@@ -499,6 +498,7 @@ namespace atomic_dex
 
         system_manager_.create_system<wallet_page>(system_manager_, this);
         system_manager_.create_system<global_price_service>(system_manager_, settings_page_system.get_cfg());
+        system_manager_.create_system<global_defi_stats_service>(system_manager_);
         system_manager_.create_system<orderbook_scanner_service>(system_manager_);
         //system_manager_.create_system<coinpaprika_provider>(system_manager_);
         //system_manager_.create_system<coingecko_provider>(system_manager_);
@@ -685,6 +685,20 @@ namespace atomic_dex
 //! Trading functions
 namespace atomic_dex
 {
+    QString
+    application::get_rate_conversion(const QString& fiat, const QString& ticker, bool adjusted)
+    {
+        const auto&     price_service = system_manager_.get_system<global_price_service>();
+        return QString::fromStdString(price_service.get_rate_conversion(fiat.toStdString(), ticker.toStdString(), adjusted));
+    }
+
+    QString
+    application::get_fiat_rate(const QString& fiat)
+    {
+        const auto&     price_service = system_manager_.get_system<global_price_service>();
+        return QString::fromStdString(price_service.get_fiat_rates(fiat.toStdString()));
+    }
+
     QString
     application::get_fiat_from_amount(const QString& ticker, const QString& amount)
     {
@@ -900,18 +914,6 @@ namespace atomic_dex
     zcash_params_service* application::get_zcash_params_service() const
     {
         auto ptr = const_cast<zcash_params_service*>(std::addressof(system_manager_.get_system<zcash_params_service>()));
-        assert(ptr != nullptr);
-        return ptr;
-    }
-} // namespace atomic_dex
-
-//! IP checker
-namespace atomic_dex
-{
-    ip_service_checker*
-    application::get_ip_checker() const
-    {
-        auto ptr = const_cast<ip_service_checker*>(std::addressof(system_manager_.get_system<ip_service_checker>()));
         assert(ptr != nullptr);
         return ptr;
     }

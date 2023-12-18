@@ -11,8 +11,9 @@ namespace atomic_dex
         g_primary_dex_coin,
         g_second_primary_dex_coin,
         "BTC-segwit",
-        "LTC-segwit",
-        "DGB-segwit",
+        "BNB",
+        "KIIRO-BEP20",
+        "USDT-BEP20"
     };
     inline const std::vector<std::string> g_faucet_coins{
         "DOC",

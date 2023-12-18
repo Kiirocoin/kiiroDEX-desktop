@@ -146,7 +146,7 @@ Network fees can vary greatly depending on your selected trading pair.").arg(API
                 FAQLine
                 {
                     title: qsTr("I see a transaction in my wallet that was marked as 'poison'. What does this mean?")
-                    text: qsTr('Address poisoning is a relatively new tye of phishing attack, where a malicious actor aims to trick you into sending funds to an address that you did not intend to send funds to.
+                    text: qsTr('Address poisoning is a relatively new type of phishing attack, where a malicious actor aims to trick you into sending funds to an address that you did not intend to send funds to.
 
 This is often done by sending a zero value transaction to your wallet from an address which looks very similar to your actual address, with the exact same letters at the start and end. This transaction will then appear in your transaction history, with the scammer hoping you will mistake the fake address for your own and send funds to it.
 
@@ -177,12 +177,6 @@ There is a toggle in settings where you can turn on/off the display of these tra
                 {
                     title: qsTr("Which devices can I use %1 on?").arg(API.app_name)
                     text: qsTr('%1 is available for mobile on both <a href="%2">Android and iPhone, and for desktop on Windows, Mac, and Linux</a> operating systems.').arg(API.app_name).arg(API.app_website_url)
-                }
-
-                FAQLine
-                {
-                    title: qsTr("Compliance Info")
-                    text: qsTr("Due to regulatory and legal circumstances the citizens of certain jurisdictions including, but not limited to, the United States of America, Canada, Hong Kong, Israel, Singapore, Sudan, Austria, Iran and any other state, country or other jurisdiction that is embargoed by the United States of America or the European Union are not allowed to use this application.")
                 }
             }
         }
