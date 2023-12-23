@@ -8,13 +8,13 @@ on:
       - master
 
 env:
-  DEX_API: "mm2"
+  DEX_API: "mm2_kmd"
   DEX_RPCPORT: 7783
   DEX_RPC: "http://127.0.0.1:7783"
   DEX_PROJECT_NAME: "kiirodex"
   DEX_DISPLAY_NAME: "kiiroDEX Desktop"
   DEX_COMPANY: "Kiirocoin"
-  DEX_VERSION: "0.6.1"
+  DEX_VERSION: "0.7.0"
   DEX_WEBSITE: "https://kiirocoin.org/"
   VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/b/vcpkg_cache
   VCPKG_BINARY_SOURCES: clear;x-gha,readwrite
